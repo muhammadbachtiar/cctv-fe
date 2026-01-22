@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { useAuth } from "../context/auth-context";
 
 export default function LoginPage() {
@@ -38,23 +39,21 @@ export default function LoginPage() {
       <div className="bg-white border border-slate-200 rounded-2xl p-10 w-full max-w-md shadow-lg">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-500 rounded-2xl flex items-center justify-center mx-auto mb-5 text-white shadow-md">
-            <svg
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              width="48"
-              height="48"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+          {/* Logos side by side */}
+          <div className="flex items-center justify-center gap-4 mb-5">
+            {/* Logo Muara Enim */}
+            <div className="relative w-16 h-16">
+              <Image
+                src="/logo_muara_enim.png"
+                alt="Logo Muara Enim"
+                width={64}
+                height={64}
+                className="object-contain"
               />
-            </svg>
+            </div>
+            {/* Camera Icon */}
           </div>
-          <h1 className="text-2xl font-bold text-slate-800 mb-2">CCTV Monitoring</h1>
+          <h1 className="text-2xl font-bold text-slate-800 mb-2">cctv.muaraenimkab.go.id</h1>
           <p className="text-sm text-slate-500">Silakan login untuk mengakses sistem</p>
         </div>
 

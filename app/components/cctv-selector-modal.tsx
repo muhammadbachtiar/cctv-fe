@@ -20,7 +20,7 @@ export default function CCTVSelectorModal({
 
   return (
     <div
-      className="fixed inset-0 bg-black/40 flex items-center justify-center p-5 z-50 animate-fade-in"
+      className="fixed inset-0 bg-black/40 flex items-center justify-center p-5 z-[60] animate-fade-in"
       onClick={onClose}
     >
       <div

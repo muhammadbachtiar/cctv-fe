@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "CCTV Monitoring System",
-  description: "Sistem monitoring CCTV dengan layout management",
+  title: "CCTV Monitoring System Pemerintah Kabupaten Muara Enim",
+  description: "Sistem monitoring CCTV Pemerintah Kabupaten Muara Enim",
 };
 
 export default function RootLayout({

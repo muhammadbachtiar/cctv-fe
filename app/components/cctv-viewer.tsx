@@ -6,9 +6,10 @@ import { CCTVItem } from "../config/cctv-data";
 interface CCTVViewerProps {
   cctv: CCTVItem | null;
   onSelect?: () => void;
+  onFullscreen?: () => void;
 }
 
-export default function CCTVViewer({ cctv, onSelect }: CCTVViewerProps) {
+export default function CCTVViewer({ cctv, onSelect, onFullscreen }: CCTVViewerProps) {
   const [hasError, setHasError] = useState(false);
 
   if (!cctv) {
@@ -41,13 +42,37 @@ export default function CCTVViewer({ cctv, onSelect }: CCTVViewerProps) {
     <div className="aspect-video bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-2 bg-slate-100 border-b border-slate-200 shrink-0">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
           <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse-opacity"></span>
           <span className="font-semibold text-sm text-slate-800 truncate">{cctv.name}</span>
+          {cctv.location && (
+            <span className="text-xs text-slate-500 truncate ml-2">{cctv.location}</span>
+          )}
         </div>
-        {cctv.location && (
-          <span className="text-xs text-slate-500 truncate ml-2">{cctv.location}</span>
-        )}
+        {/* Fullscreen button */}
+        <button
+          className="p-1.5 text-slate-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors shrink-0"
+          onClick={(e) => {
+            e.stopPropagation();
+            onFullscreen?.();
+          }}
+          title="Fullscreen"
+        >
+          <svg
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            width="18"
+            height="18"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+            />
+          </svg>
+        </button>
       </div>
 
       {/* Stream Area */}

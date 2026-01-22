@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { useAuth } from "../context/auth-context";
 import { CCTVItem, LayoutType, layoutOptions, cctvList } from "../config/cctv-data";
 import LayoutSelector from "../components/layout-selector";
 import CCTVViewer from "../components/cctv-viewer";
 import CCTVSelectorModal from "../components/cctv-selector-modal";
+import CCTVFullscreenModal from "../components/cctv-fullscreen-modal";
 
 export default function DashboardPage() {
   const { user, logout, isLoading, isAuthenticated } = useAuth();
@@ -13,6 +15,8 @@ export default function DashboardPage() {
   const [selectedCCTVs, setSelectedCCTVs] = useState<(CCTVItem | null)[]>([]);
   const [selectorOpen, setSelectorOpen] = useState(false);
   const [currentSlot, setCurrentSlot] = useState<number>(0);
+  const [fullscreenCCTV, setFullscreenCCTV] = useState<CCTVItem | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   // Get number of slots based on layout
   const getSlotCount = () => {
@@ -38,6 +42,12 @@ export default function DashboardPage() {
   }, [layout]);
 
   const handleSelectCCTV = (cctv: CCTVItem) => {
+    // If in fullscreen mode, update fullscreen CCTV
+    if (isFullscreen) {
+      setFullscreenCCTV(cctv);
+    }
+    
+    // Update the grid slot
     setSelectedCCTVs((prev) => {
       const newSlots = [...prev];
       newSlots[currentSlot] = cctv;
@@ -47,6 +57,27 @@ export default function DashboardPage() {
 
   const openSelector = (slotIndex: number) => {
     setCurrentSlot(slotIndex);
+    setSelectorOpen(true);
+  };
+
+  const handleOpenFullscreen = (cctv: CCTVItem) => {
+    setFullscreenCCTV(cctv);
+    setIsFullscreen(true);
+  };
+
+  const handleCloseFullscreen = () => {
+    setIsFullscreen(false);
+    setFullscreenCCTV(null);
+  };
+
+  const handleChangeFullscreenCCTV = () => {
+    // Find the current slot index for the fullscreen CCTV
+    const slotIndex = selectedCCTVs.findIndex(
+      (c) => c !== null && fullscreenCCTV !== null && c.id === fullscreenCCTV.id
+    );
+    if (slotIndex !== -1) {
+      setCurrentSlot(slotIndex);
+    }
     setSelectorOpen(true);
   };
 
@@ -88,13 +119,25 @@ export default function DashboardPage() {
       {/* Header */}
       <header className="bg-white border-b border-slate-200 px-6 py-3 flex items-center justify-between gap-5 flex-wrap shadow-sm shrink-0">
         <div className="flex items-center">
-          <div className="flex items-center gap-3 text-blue-600">
+          <div className="flex items-center gap-3">
+            {/* Logo Muara Enim */}
+            <div className="relative w-9 h-9">
+              <Image
+                src="/logo_muara_enim.png"
+                alt="Logo Muara Enim"
+                width={36}
+                height={36}
+                className="object-contain"
+              />
+            </div>
+            {/* Camera Icon */}
             <svg
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
               width="32"
               height="32"
+              className="text-blue-600"
             >
               <path
                 strokeLinecap="round"
@@ -103,7 +146,7 @@ export default function DashboardPage() {
                 d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
               />
             </svg>
-            <h1 className="text-lg font-bold text-slate-800">CCTV Monitoring</h1>
+            <h1 className="text-lg font-bold text-slate-800">cctv.muaraenimkab.go.id</h1>
           </div>
         </div>
 
@@ -160,6 +203,7 @@ export default function DashboardPage() {
               key={`slot-${index}`}
               cctv={cctv}
               onSelect={() => openSelector(index)}
+              onFullscreen={cctv ? () => handleOpenFullscreen(cctv) : undefined}
             />
           ))}
         </div>
@@ -171,6 +215,14 @@ export default function DashboardPage() {
         onClose={() => setSelectorOpen(false)}
         onSelect={handleSelectCCTV}
         selectedIds={selectedIds}
+      />
+
+      {/* Fullscreen Modal */}
+      <CCTVFullscreenModal
+        isOpen={isFullscreen}
+        cctv={fullscreenCCTV}
+        onClose={handleCloseFullscreen}
+        onChangeCCTV={handleChangeFullscreenCCTV}
       />
     </div>
   );

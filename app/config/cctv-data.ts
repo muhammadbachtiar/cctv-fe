@@ -8,60 +8,45 @@ export interface CCTVItem {
     location?: string;
 }
 
+// Get CCTV domain from environment variable
+const CCTV_DOMAIN = process.env.NEXT_PUBLIC_CCTV_DOMAIN;
+
 export const cctvList: CCTVItem[] = [
     {
         id: 1,
-        name: "Tugu Kopi",
-        url: "http://localhost:8888/tugu-kopi/",
-        location: "Jl. Raya Tugu Kopi",
+        name: "Simpang Kepur 01",
+        url: `${CCTV_DOMAIN}/simpang-kepur-01/`,
+        location: "Simpang Kepur",
     },
     {
         id: 2,
         name: "Simpang Kepur PTZ",
-        url: "http://localhost:8888/simpang-kepur-ptz/",
-        location: "Persimpangan Kepur",
+        url: `${CCTV_DOMAIN}/simpang-kepur-ptz/`,
+        location: "Simpang Kepur",
     },
     {
         id: 3,
-        name: "Tugu Adipura",
-        url: "http://localhost:8888/tugu-adipura/",
-        location: "Pusat Kota",
+        name: "Tugu Pahlawan 01",
+        url: `${CCTV_DOMAIN}/tugu-pahlawan-01/`,
+        location: "Kawasan Tugu Pahlawan",
     },
     {
         id: 4,
-        name: "Simpang Kepur 01",
-        url: "http://localhost:8888/simpang-kepur-01/",
-        location: "Terminal Utama",
+        name: "Tugu Pahlawan 02",
+        url: `${CCTV_DOMAIN}/tugu-pahlawan-02/`,
+        location: "Kawasan Tugu Pahlawan",
     },
     {
         id: 5,
-        name: "Pasar Sentral",
-        url: "http://10.10.0.50/pasar-sentral",
-        location: "Pasar Tradisional",
+        name: "Tugu Pahlawan 03",
+        url: `${CCTV_DOMAIN}/tugu-pahlawan-03/`,
+        location: "Kawasan Tugu Pahlawan",
     },
     {
         id: 6,
-        name: "Bundaran HI",
-        url: "http://10.10.0.50/bundaran-hi",
-        location: "Bundaran Hotel Indonesia",
-    },
-    {
-        id: 7,
-        name: "Stasiun Kereta",
-        url: "http://10.10.0.50/stasiun",
-        location: "Stasiun Pusat",
-    },
-    {
-        id: 8,
-        name: "Jembatan Merah",
-        url: "http://10.10.0.50/jembatan-merah",
-        location: "Jembatan Utama",
-    },
-    {
-        id: 9,
-        name: "Taman Kota",
-        url: "http://10.10.0.50/taman-kota",
-        location: "Taman Rekreasi",
+        name: "Jembatan Enim 2 PTZ",
+        url: `${CCTV_DOMAIN}/jembatan-enim2-ptz/`,
+        location: "Jembatan Enim 2",
     },
 ];
 
