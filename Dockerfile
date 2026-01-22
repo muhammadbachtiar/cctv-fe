@@ -12,6 +12,9 @@ RUN npm ci
 FROM node:20-alpine AS builder
 WORKDIR /app
 
+# Accept build arguments
+ARG NEXT_PUBLIC_CCTV_DOMAIN
+
 # Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -19,6 +22,7 @@ COPY . .
 # Set environment for production build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NEXT_PUBLIC_CCTV_DOMAIN=$NEXT_PUBLIC_CCTV_DOMAIN
 
 # Build the application
 RUN npm run build

@@ -5,11 +5,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_CCTV_DOMAIN: ${NEXT_PUBLIC_CCTV_DOMAIN:-http://xxx.xxx.xxx.xxx}
     container_name: cctv-frontend
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=production
+      - NEXT_PUBLIC_CCTV_DOMAIN=${NEXT_PUBLIC_CCTV_DOMAIN:-http://xxx.xxx.xxx.xxx}
     env_file:
       - .env.local
     restart: unless-stopped
