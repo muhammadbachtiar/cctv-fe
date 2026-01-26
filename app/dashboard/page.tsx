@@ -96,23 +96,9 @@ export default function DashboardPage() {
     return null;
   }
 
-  const cols = layoutOptions.find((o) => o.value === layout)?.cols || 2;
-
-  // Calculate grid class based on columns
-  const getGridColsClass = () => {
-    switch (cols) {
-      case 1:
-        return "grid-cols-1";
-      case 2:
-        return "grid-cols-2";
-      case 3:
-        return "grid-cols-3";
-      case 4:
-        return "grid-cols-4";
-      default:
-        return "grid-cols-2";
-    }
-  };
+  // Get responsive grid class from layout option
+  const currentLayoutOption = layoutOptions.find((o) => o.value === layout);
+  const gridClass = currentLayoutOption?.responsiveClass || "grid-cols-1 md:grid-cols-2";
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
@@ -197,7 +183,7 @@ export default function DashboardPage() {
 
       {/* CCTV Grid - Fill remaining space with proper 16:9 aspect ratio */}
       <main className="flex-1 p-4 overflow-auto">
-        <div className={`grid ${getGridColsClass()} gap-3 w-full max-w-full`}>
+        <div className={`grid ${gridClass} gap-3 w-full max-w-full auto-rows-fr items-start`}>
           {selectedCCTVs.map((cctv, index) => (
             <CCTVViewer
               key={`slot-${index}`}

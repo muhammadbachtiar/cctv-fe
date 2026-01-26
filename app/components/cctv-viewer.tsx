@@ -15,7 +15,7 @@ export default function CCTVViewer({ cctv, onSelect, onFullscreen }: CCTVViewerP
   if (!cctv) {
     return (
       <div
-        className="aspect-video bg-white border-2 border-dashed border-slate-300 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 hover:border-blue-600 hover:bg-blue-600/5"
+        className="aspect-video bg-white border-2 min-h-[200px] md:min-h-0 border-dashed border-slate-300 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-200 hover:border-blue-600 hover:bg-blue-600/5"
         onClick={onSelect}
       >
         <div className="flex flex-col items-center gap-3 text-slate-500">
@@ -39,7 +39,7 @@ export default function CCTVViewer({ cctv, onSelect, onFullscreen }: CCTVViewerP
   }
 
   return (
-    <div className="aspect-video bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
+    <div className="aspect-video min-h-[200px] md:min-h-0 bg-white border border-slate-200 rounded-xl overflow-hidden flex flex-col shadow-sm">
       {/* Header */}
       <div className="flex items-center justify-between px-3 py-2 bg-slate-100 border-b border-slate-200 shrink-0">
         <div className="flex items-center gap-2 flex-1 min-w-0">
@@ -106,7 +106,8 @@ export default function CCTVViewer({ cctv, onSelect, onFullscreen }: CCTVViewerP
             title={cctv.name}
             className="absolute inset-0 w-full h-full border-none"
             onError={() => setHasError(true)}
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+            allowFullScreen
           />
         )}
       </div>

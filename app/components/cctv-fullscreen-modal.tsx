@@ -16,10 +16,10 @@ export default function CCTVFullscreenModal({
   onClose,
   onChangeCCTV,
 }: CCTVFullscreenModalProps) {
-  const [showControls, setShowControls] = useState(false);
+  const [showControls, setShowControls] = useState(true);
   const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
 
-  // Handle ESC key to close fullscreen
+  // Handle ESC key to close fullscreen and manage body scroll
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -29,10 +29,12 @@ export default function CCTVFullscreenModal({
 
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden"; // Hide scrollbar
     }
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset"; // Restore scrollbar
     };
   }, [isOpen, onClose]);
 
@@ -74,14 +76,22 @@ export default function CCTVFullscreenModal({
         src={cctv.url}
         title={cctv.name}
         className="absolute inset-0 w-full h-full border-none"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen;"
+        allowFullScreen
         onClick={(e) => e.stopPropagation()}
+      />
+
+      {/* Mouse Capture Overlay - Needed because iframe swallows mouse events */}
+      <div 
+        className="absolute inset-0 z-10 bg-transparent"
+        onMouseMove={handleMouseMove}
+        onClick={onClose}
       />
 
       {/* Floating controls - only visible on hover */}
       <div
-        className={`absolute top-4 right-4 flex items-center gap-2 transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+        className={`absolute top-4 right-4 z-20 flex items-center gap-2 transition-opacity duration-300 ${
+          showControls ? "opacity-100" : "opacity-0"
         }`}
       >
         {/* Change CCTV button */}
@@ -136,8 +146,8 @@ export default function CCTVFullscreenModal({
 
       {/* CCTV info - only visible on hover */}
       <div
-        className={`absolute bottom-4 left-4 transition-opacity duration-300 ${
-          showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+        className={`absolute bottom-4 left-4 z-20 transition-opacity duration-300 ${
+          showControls ? "opacity-100" : "opacity-0"
         }`}
       >
         <div className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-4 py-2 rounded-lg">

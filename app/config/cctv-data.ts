@@ -53,9 +53,36 @@ export const cctvList: CCTVItem[] = [
 // Layout options
 export type LayoutType = "1x1" | "2x2" | "3x3" | "4x4";
 
-export const layoutOptions: { value: LayoutType; label: string; cols: number }[] = [
-    { value: "1x1", label: "1 CCTV", cols: 1 },
-    { value: "2x2", label: "4 CCTV", cols: 2 },
-    { value: "3x3", label: "9 CCTV", cols: 3 },
-    { value: "4x4", label: "16 CCTV", cols: 4 },
+export interface LayoutOption {
+    value: LayoutType;
+    label: string;
+    cols: number;
+    responsiveClass: string; // Tailwind responsive grid classes
+}
+
+export const layoutOptions: LayoutOption[] = [
+    {
+        value: "1x1",
+        label: "1 CCTV",
+        cols: 1,
+        responsiveClass: "grid-cols-1" // Always 1 column
+    },
+    {
+        value: "2x2",
+        label: "4 CCTV",
+        cols: 2,
+        responsiveClass: "grid-cols-1 md:grid-cols-2" // 1 col on mobile, 2 on tablet+
+    },
+    {
+        value: "3x3",
+        label: "9 CCTV",
+        cols: 3,
+        responsiveClass: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" // 1 col mobile, 2 tablet, 3 desktop
+    },
+    {
+        value: "4x4",
+        label: "16 CCTV",
+        cols: 4,
+        responsiveClass: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3" // 2 cols mobile, 3 tablet, 4 desktop
+    },
 ];
